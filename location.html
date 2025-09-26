@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Go to location</title>
+<script>
+  const lat = "41.4911150";
+  const lon = "69.6218910";
+  const googleNav = `google.navigation:q=${lat},${lon}`;
+  const googleWeb = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+  const appleMaps = `maps://?q=${lat},${lon}`;
+  const appleWeb = `https://maps.apple.com/?ll=${lat},${lon}`;
+
+  function isIOS() {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  }
+  function isAndroid() {
+    return /Android/.test(navigator.userAgent);
+  }
+
+  if (isIOS()) {
+    // Try to open Apple Maps (maps://) — fallback to web
+    window.location = appleMaps;
+    setTimeout(()=> window.location = appleWeb, 1000);
+  } else if (isAndroid()) {
+    // Try to open Google Maps navigation — fallback to web
+    window.location = googleNav;
+    setTimeout(()=> window.location = googleWeb, 1000);
+  } else {
+    // Desktop/browser: open Google Maps web
+    window.location = googleWeb;
+  }
+</script>
+</head>
+<body>
+Redirecting to maps…
+</body>
+</html>
